@@ -12,8 +12,8 @@
 
 # if dcs_exists: false and dcs_type: "etcd"
 [etcd_cluster]  # recommendation: 3, or 5-7 nodes
+10.0.10.6
 10.0.10.5
-10.0.10.2
 10.0.10.4
 
 # if with_haproxy_load_balancing: true
@@ -22,7 +22,7 @@
 
 # PostgreSQL nodes
 [master]
-10.0.10.6 postgresql_exists=true
+10.0.10.2 postgresql_exists=true
 
 [replica]
 10.0.10.3 postgresql_exists=true
@@ -40,7 +40,7 @@ replica
 ansible_connection='ssh'
 ansible_ssh_port='22'
 ansible_user='nvsuvorov'
-#ansible_ssh_private_key_file=
-#ansible_python_interpreter='/usr/bin/python3'  # is required for use python3
+ansible_ssh_private_key_file='~/.ssh/id_rsa.pub'
+ansible_python_interpreter='/usr/bin/python3'  # is required for use python3
 
 [pgbackrest:vars]
