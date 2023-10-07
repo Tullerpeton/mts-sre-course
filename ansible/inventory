@@ -40,7 +40,5 @@ replica
 ansible_connection='ssh'
 ansible_ssh_port='22'
 ansible_user='nvsuvorov'
-ansible_ssh_private_key_file='~/.ssh/id_rsa.pub'
-ansible_python_interpreter='/usr/bin/python3'  # is required for use python3
 
 [pgbackrest:vars]

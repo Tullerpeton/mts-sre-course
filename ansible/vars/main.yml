@@ -27,7 +27,7 @@ synchronous_mode_strict: false  # if 'true' then block all client writes to the 
 synchronous_node_count: 1  # number of synchronous standby databases
 
 # Load Balancing
-with_haproxy_load_balancing: false  # or 'true' if you want to install and configure the load-balancing
+with_haproxy_load_balancing: true  # or 'true' if you want to install and configure the load-balancing
 haproxy_listen_port:
   master: 5000
   replicas: 5001
@@ -144,7 +144,7 @@ postgresql_port: "5432"
 postgresql_encoding: "UTF8"  # for bootstrap only (initdb)
 postgresql_locale: "en_US.UTF-8"  # for bootstrap only (initdb)
 postgresql_data_checksums: true  # for bootstrap only (initdb)
-postgresql_password_encryption_algorithm: "scram-sha-256"  # or "md5" if your clients do not work with passwords encrypted with SCRAM-SHA-256
+postgresql_password_encryption_algorithm: "md5"  # or "md5" if your clients do not work with passwords encrypted with SCRAM-SHA-256
 
 # (optional) list of users to be created (if not already exists)
 postgresql_users:
@@ -295,7 +295,7 @@ postgresql_pgpass:
 
 
 # PgBouncer parameters
-pgbouncer_install: true  # or 'false' if you do not want to install and configure the pgbouncer service
+pgbouncer_install: false  # or 'false' if you do not want to install and configure the pgbouncer service
 pgbouncer_conf_dir: "/etc/pgbouncer"
 pgbouncer_log_dir: "/var/log/pgbouncer"
 pgbouncer_listen_addr: "0.0.0.0"
