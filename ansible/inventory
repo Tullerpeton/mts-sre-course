@@ -22,10 +22,10 @@
 
 # PostgreSQL nodes
 [master]
-10.0.10.2 postgresql_exists=true
+10.0.10.2 postgresql_exists=false
 
 [replica]
-10.0.10.3 postgresql_exists=true
+10.0.10.3 postgresql_exists=false
 
 [postgres_cluster:children]
 master
