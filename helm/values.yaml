@@ -1,0 +1,60 @@
+replicaCount: 2
+
+image:
+  repository: ghcr.io/ldest/sre-course/api
+  pullPolicy: IfNotPresent
+  tag: "f0135e1"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+autoscaling: {}
+
+serviceAccount: {}
+
+mapenvs:
+  - name: "CONNECTIONSTRINGS__PGCONNECTION"
+    value: "server=; port=5000; database=weather; userid=postgres; password=postgres-pass;"
+  - name: "DOTNET_ENVIRONMENT"
+    value: "Development"
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: weather-app.api
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+volumes: []
+
+volumeMounts: []
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
