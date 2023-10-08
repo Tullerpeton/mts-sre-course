@@ -20,9 +20,13 @@ autoscaling: {}
 
 serviceAccount: {}
 
+variables:
+  ASPNETCORE_URLS: http://*:8088
+  CONNECTIONSTRINGS__PGCONNECTION: server=localhost; port=5432; database=weather; user id=postgres; password=;
+
 service:
   type: ClusterIP
-  port: 8080
+  port: 8088
 
 ingress:
   enabled: true
