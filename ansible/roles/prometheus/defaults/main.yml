@@ -78,14 +78,11 @@ prometheus_targets: {}
 
 prometheus_scrape_configs:
   - job_name: "prometheus"
-    metrics_path: "{{ prometheus_metrics_path }}"
     static_configs:
-      - targets:
-          - "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}:9090"
-  - job_name: "node"
-    file_sd_configs:
-      - files:
-          - "{{ prometheus_config_dir }}/file_sd/node.yml"
+      - targets: ["localhost:9090"]
+  - job_name: "patroni"
+    static_configs:
+      - targets: ["10.0.10.3:8008","10.0.10.4:8008"]
 
 # Alternative config file name, searched in ansible templates path.
 prometheus_config_file: 'prometheus.yml.j2'
