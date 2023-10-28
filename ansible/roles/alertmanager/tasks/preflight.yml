@@ -68,12 +68,12 @@
 #     - alertmanager_config_file == 'alertmanager.yml.j2'
 #     - alertmanager_receivers == []
 
-- name: Fail when there is no alert route defined
-  ansible.builtin.fail:
-    msg: "Configure alert routing (`alertmanager_route`). Otherwise alertmanager won't know how to send alerts."
-  when:
-    - alertmanager_config_file == 'alertmanager.yml.j2'
-    - alertmanager_route == {}
+# - name: Fail when there is no alert route defined
+#   ansible.builtin.fail:
+#     msg: "Configure alert routing (`alertmanager_route`). Otherwise alertmanager won't know how to send alerts."
+#   when:
+#     - alertmanager_config_file == 'alertmanager.yml.j2'
+#     - alertmanager_route == {}
 
 - name: "DEPRECATION WARNING: alertmanager version 0.15 and earlier are no longer supported and will be dropped from future releases"
   failed_when: false
