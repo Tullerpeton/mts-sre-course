@@ -12,6 +12,11 @@
   hosts: all
   vars:
     locale: 'en_US.UTF-8'
+    postgres_exporter_tls_server_config:
+      cert_file: '/usr/local/etc/ssl/postgres_exporter.cert'
+      key_file: '/usr/local/etc/ssl/postgres_exporter.key'
+    postgres_exporter_basic_auth_users:
+      newuser1: newpassword1
 
   pre_tasks:
     - name: 'Update APT cache'
@@ -27,6 +32,27 @@
         - ansible_os_family == 'RedHat' and
           ansible_distribution_major_version == '8'
 
+    - name: 'Create certificate directories'
+      ansible.builtin.file:
+        path: '{{ postgres_exporter_tls_server_config.cert_file | dirname }}'
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: 'Copy certificate and key'
+      ansible.builtin.copy:
+        src: '{{ cert.src }}'
+        dest: '{{ cert.dest }}'
+        mode: 0644
+      loop:
+        - src: '/tmp/certificate.cert'
+          dest: '{{ postgres_exporter_tls_server_config.cert_file }}'
+        - src: '/tmp/certificate.key'
+          dest: '{{ postgres_exporter_tls_server_config.key_file }}'
+      loop_control:
+        loop_var: cert
+
   roles:
     - role: geerlingguy.postgresql
       postgresql_users:
@@ -40,5 +66,4 @@
           encoding: 'UTF-8'
           template: 'template0'
           owner: 'molecule'
-
     - role: antmelekhin.postgres_exporter

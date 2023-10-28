@@ -1,0 +1,49 @@
+---
+- name: 'Configure and start Postgres Exporter'
+  become: true
+  block:
+    - name: 'Linux | Configure SystemD unit for Postgres Exporter'
+      ansible.builtin.template:
+        src: 'postgres_exporter.service.j2'
+        dest: '/etc/systemd/system/postgres_exporter.service'
+        owner: '{{ postgres_exporter_user }}'
+        group: '{{ postgres_exporter_group }}'
+        mode: 0644
+      notify: 'Linux | Restart Postgres Exporter'
+
+    - name: 'Linux | Configure web config file for Postgres Exporter'
+      ansible.builtin.template:
+        src: 'web_config.yaml.j2'
+        dest: '{{ postgres_exporter_config_path }}/web_config.yaml'
+        owner: '{{ postgres_exporter_user }}'
+        group: '{{ postgres_exporter_group }}'
+        mode: 0600
+      notify: 'Linux | Restart Postgres Exporter'
+      when:
+        - postgres_exporter_tls_server_config | length or
+          postgres_exporter_http_server_config | length or
+          postgres_exporter_basic_auth_users | length
+
+    - name: 'Linux | Ensure Postgres Exporter is running and enabled at boot'
+      ansible.builtin.systemd:
+        name: postgres_exporter
+        state: started
+        enabled: true
+
+- name: 'Linux | Configure SELinux when is already installed'
+  when: ansible_selinux.status == 'enabled'
+  become: true
+  block:
+    - name: 'Linux | Install SELinux required packages'
+      ansible.builtin.package:
+        name: "{{ ['policycoreutils-python']
+          if ansible_python_version is version('3', '<')
+          else ['policycoreutils-python-utils'] }}"
+        state: present
+
+    - name: 'Linux | Allow Postgres Exporter port in SELinux'
+      community.general.seport:
+        ports: '{{ postgres_exporter_web_listen_port }}'
+        proto: tcp
+        setype: ssh_port_t
+        state: present

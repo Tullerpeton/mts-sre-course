@@ -1,0 +1,21 @@
+{{ ansible_managed | comment }}
+& '{{ postgres_exporter_install_path }}\postgres_exporter.exe' `
+{% if postgres_exporter_tls_server_config | length or postgres_exporter_http_server_config | length or postgres_exporter_basic_auth_users | length %}
+    --web.config.file '{{ postgres_exporter_config_path }}\web_config.yaml' `
+{% endif %}
+    --web.listen-address {{ postgres_exporter_web_listen_address }}:{{ postgres_exporter_web_listen_port }} `
+    --web.telemetry-path {{ postgres_exporter_web_telemetry_path }} `
+{% for collector in postgres_exporter_collectors %}
+    --{{ collector }} `
+{% endfor %}
+{% if postgres_exporter_disable_default_metrics | bool %}
+    --disable-default-metrics `
+{% endif %}
+{% if postgres_exporter_disable_settings_metrics | bool %}
+    --disable-settings-metrics `
+{% endif %}
+{% if postgres_exporter_extend_query_path | length %}
+    --extend.query-path {{ postgres_exporter_extend_query_path }} `
+{% endif %}
+    --log.level {{ postgres_exporter_log_level }} `
+    --log.format {{ postgres_exporter_log_format }}

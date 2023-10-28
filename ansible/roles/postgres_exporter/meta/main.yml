@@ -1,33 +1,37 @@
 ---
 galaxy_info:
+  author: antmelekhin
   role_name: postgres_exporter
-  author: Brett Delle Grazie
-  description: Role to install Prometheus PostgreSQL Exporter
+  description: An Ansible role for install, configure and update Postgres Exporter.
 
-  license: GPLv3
+  license: MIT
 
-  min_ansible_version: 2.0
+  min_ansible_version: '2.12'
 
   platforms:
-    - name: EL
-      versions:
-        - 6
-        - 7
-        - 8
-    - name: Fedora
-      versions:
-        - all
-    - name: Ubuntu
-      versions:
-        - all
     - name: Debian
       versions:
-        - all
+        - 'buster'
+        - 'bullseye'
+        - 'bookworm'
+    - name: EL
+      versions:
+        - '7'
+        - '8'
+    - name: Ubuntu
+      versions:
+        - 'bionic'
+        - 'focal'
+        - 'jammy'
+    - name: Windows
+      versions:
+        - '2016'
+        - '2019'
 
   galaxy_tags:
+    - monitoring
     - prometheus
-    - exporter
     - postgresql
+    - exporter
 
-dependencies:
-  - role: 'bdellegrazie.ansible-role-prometheus_exporter'
+dependencies: []

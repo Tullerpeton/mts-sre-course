@@ -15,7 +15,11 @@
 
     - name: 'Verify postgres_exporter is responding to requests'
       ansible.builtin.uri:
-        url: 'http://{{ ansible_host }}:9187/metrics'
+        url: 'https://{{ ansible_host }}:9187/metrics'
+        user: newuser1
+        password: newpassword1
+        force_basic_auth: true
+        validate_certs: false
       register: _result
       until: _result.status == 200
       retries: 120

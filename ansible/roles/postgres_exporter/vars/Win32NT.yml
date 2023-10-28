@@ -1,0 +1,13 @@
+---
+_postgres_exporter_os: 'windows'
+
+_postgres_exporter_architecture_map:
+  32-bit: '386'
+  64-bit: 'amd64'
+
+_postgres_exporter_architecture: '{{ _postgres_exporter_architecture_map[ansible_architecture] | default(ansible_architecture) }}'
+
+_postgres_exporter_install_path: 'C:\Program Files\postgres_exporter'
+_postgres_exporter_config_path: 'C:\Program Files\postgres_exporter'
+
+_postgres_exporter_data_source_name: 'user=postgres host=127.0.0.1 sslmode=disable'
