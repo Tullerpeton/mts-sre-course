@@ -1,6 +1,6 @@
 ---
 - name: 'Setup Postgres Alertmanager'
-  hosts: all
+  hosts: promt
   roles:
     - prometheus.prometheus.alertmanager
   vars:
