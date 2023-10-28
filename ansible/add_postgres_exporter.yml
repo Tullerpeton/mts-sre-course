@@ -1,0 +1,4 @@
+---
+- hosts: postgres_cluster
+  roles:
+    - postgres_exporter
