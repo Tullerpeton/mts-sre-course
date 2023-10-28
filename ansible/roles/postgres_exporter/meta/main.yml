@@ -28,6 +28,3 @@ galaxy_info:
     - prometheus
     - exporter
     - postgresql
-
-dependencies:
-  - { role: 'bdellegrazie.ansible-role-prometheus_exporter', version: 'v2.0.3' }
