@@ -46,6 +46,7 @@ export const getForecastById = (forecast: Forecast): Response<Forecast> => {
 
     check(res, {
         "Get Forecast By Id: is 200": (r) => r.status === 200,
+        "Get Forecast By Id: has correct id": (_) => jsonRes.data.id === forecast.id,
     });
 
     return {
@@ -125,10 +126,11 @@ export const getForecasts = (): Response<{}> => {
  * createForecast makes a POST request to the /forecast endpoint and asserts
  * that the response is 200 and that the forecast id match the
  * forecast object that was passed in.
+ * @param forecast
  * @returns Response<Forecast>
  */
 
-export const createForecast = (): Response<{}> => {
+export const createForecast = (forecast: Forecast): Response<Forecast> => {
     const url = reqResUrl;
     const params = {
         headers: {
@@ -137,6 +139,7 @@ export const createForecast = (): Response<{}> => {
     };
 
     const res = http.post(`${url}/forecast`, null, params);
+    const jsonRes = res.json() as { data: Forecast };
 
     logWaitingTime({
         metric: metrics.CreateForecast,
@@ -146,10 +149,11 @@ export const createForecast = (): Response<{}> => {
 
     check(res, {
         "Create Forecast: is 200": (r) => r.status === 200,
+        "Create Forecast: has correct id": (_) => jsonRes.data.id === forecast.id,
     });
 
     return {
-        data: {},
+        data: jsonRes.data,
         statusCode: res.status,
     };
 };
