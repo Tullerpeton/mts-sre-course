@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "test:getting_weather_forecast.ts": "yarn build && docker run --platform linux/amd64 -it -p 5665:5665 -v $(pwd)/dist/:/src ghcr.io/grafana/xk6-dashboard:0.6.1 run --out 'dashboard=period=2s' /src/tests/getting_weather_forecast.cjs",
+    "test:getting_weather_forecast": "yarn build && docker run --platform linux/amd64 -it -p 5665:5665 -v $(pwd)/dist/:/src ghcr.io/grafana/xk6-dashboard:0.6.1 run --out 'dashboard=period=2s' /src/tests/getting_weather_forecast.cjs"
   },
   "devDependencies": {
     "@babel/core": "7.23.3",
