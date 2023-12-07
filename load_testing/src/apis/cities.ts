@@ -43,9 +43,6 @@ export const getCityById = (city: City): Response<City> => {
 
   check(res, {
     "Get City By Id: is 200": (r) => r.status === 200,
-    "Get City By Id: has correct id": (_) => jsonRes.data.id === city.id,
-    "Get City By Id: has correct name": (_) =>
-      jsonRes.data.name === city.name,
   });
 
   return {

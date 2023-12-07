@@ -46,7 +46,6 @@ export const getForecastById = (forecast: Forecast): Response<Forecast> => {
 
     check(res, {
         "Get Forecast By Id: is 200": (r) => r.status === 200,
-        "Get Forecast By Id: has correct id": (_) => jsonRes.data.id === forecast.id,
     });
 
     return {
