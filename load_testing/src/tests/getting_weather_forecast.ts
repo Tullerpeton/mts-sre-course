@@ -1,4 +1,5 @@
 import {getWeatherForecast} from "../apis/weather_forecast";
+import { sleep } from 'k6';
 
 export let options = {
   vus: 1,
@@ -17,4 +18,7 @@ export let options = {
 
 export default function test () {
   getWeatherForecast();
+
+  // Add some sleep time between iterations
+  sleep(5);
 }
