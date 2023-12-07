@@ -2,6 +2,7 @@ import {getForecastById, } from "../apis/forecast";
 import {cities} from "../data/cities";
 import {getCityById} from "../apis/cities";
 import {SharedArray} from "k6/data";
+import { sleep } from 'k6';
 
 const data = new SharedArray("cities", function () {
   return cities;
@@ -23,7 +24,14 @@ export let options = {
 };
 
 export default function test () {
-  const city = data.splice(Math.floor(Math.random()*data.length),1)[0];
+  let min = Math.ceil(0);
+  let max = Math.floor(68);
+  let num = Math.floor(Math.random() * (max - min) + min);
+
+  const city = data[num];
   getForecastById({id: city.id, cityId: 0, dateTime: 0, temperature: 0, summary: ""});
   getCityById({id: city.id, name: city.city});
+
+  // Add some sleep time between iterations
+  sleep(5);
 }
