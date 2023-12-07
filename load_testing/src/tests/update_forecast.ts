@@ -1,4 +1,3 @@
-import {getWeatherForecast} from "../apis/weather_forecast";
 import { sleep } from 'k6';
 import {createForecast} from "../apis/forecast";
 

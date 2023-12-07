@@ -19,6 +19,7 @@ export let options = {
     { duration: '2m', target: 900 },
     { duration: '2m', target: 1000 },
   ],
+  thresholds: { http_req_failed: ['rate<0.01'] },
 };
 
 export default function test () {
