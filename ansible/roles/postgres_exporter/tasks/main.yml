@@ -1,0 +1,17 @@
+---
+- name: 'Include OS-specific variables'
+  ansible.builtin.include_vars: '{{ ansible_system }}.yml'
+
+- name: 'Set archive fullname and temporary directory for Postgres Exporter'
+  ansible.builtin.set_fact:
+    _postgres_exporter_archive: '{{ postgres_exporter_archive_name }}.{{ postgres_exporter_archive_extension }}'
+    _postgres_exporter_tmp_dir: '{{ postgres_exporter_archive_name }}'
+
+- name: 'Include tasks for preparing to install Postgres Exporter'
+  ansible.builtin.include_tasks: '{{ ansible_system }}/pre-install.yml'
+
+- name: 'Include tasks for install Postgres Exporter'
+  ansible.builtin.include_tasks: '{{ ansible_system }}/install.yml'
+
+- name: 'Include tasks for configure Postgres Exporter'
+  ansible.builtin.include_tasks: '{{ ansible_system }}/configure.yml'

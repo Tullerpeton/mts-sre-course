@@ -1,0 +1,6 @@
+---
+- name: 'Setup Postgres Exporter'
+  hosts: postgres_cluster
+
+  roles:
+    - postgres_exporter

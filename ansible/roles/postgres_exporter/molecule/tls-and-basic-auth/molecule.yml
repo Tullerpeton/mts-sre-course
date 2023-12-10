@@ -1,0 +1,27 @@
+---
+role_name_check: 2
+dependency:
+  name: galaxy
+  enabled: true
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+platforms:
+  - name: '${IMAGE:-docker-systemd}-${TAG:-ubuntu-22.04}${TOX_ENVNAME}'
+    image: '${NAMESPACE:-antmelekhin}/${IMAGE:-docker-systemd}:${TAG:-ubuntu-22.04}'
+    published_ports:
+      - 0.0.0.0:9187:9187/udp
+      - 0.0.0.0:9187:9187/tcp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - /var/lib/containerd
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

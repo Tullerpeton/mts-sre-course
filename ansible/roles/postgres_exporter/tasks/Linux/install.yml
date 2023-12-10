@@ -1,0 +1,47 @@
+---
+- name: 'Linux | Check if Postgres Exporter is installed'
+  ansible.builtin.stat:
+    path: '{{ postgres_exporter_install_path }}/postgres_exporter'
+  register: _postgres_exporter_is_installed
+
+- name: 'Linux | Check current Postgres Exporter version'
+  ansible.builtin.command:
+    cmd: '{{ postgres_exporter_install_path }}/postgres_exporter --version'
+  failed_when: false
+  changed_when: false
+  register: _postgres_exporter_version_check
+
+- name: 'Linux | Download and unarchive Postgres Exporter'
+  when:
+    - not _postgres_exporter_is_installed.stat.exists or
+      ( _postgres_exporter_version_check.stderr_lines | length > 0 and
+      postgres_exporter_version not in _postgres_exporter_version_check.stderr_lines[0].split(" ")[2] ) or
+      ( _postgres_exporter_version_check.stdout_lines | length > 0 and
+      postgres_exporter_version not in _postgres_exporter_version_check.stdout_lines[0].split(" ")[2] )
+  block:
+    - name: 'Linux | Download Postgres Exporter binary to local folder'
+      ansible.builtin.get_url:
+        url: '{{ postgres_exporter_download_url }}/{{ _postgres_exporter_archive }}'
+        dest: '/tmp/{{ _postgres_exporter_archive }}'
+        mode: 0644
+      delegate_to: localhost
+      check_mode: false
+
+    - name: 'Linux | Unarchive Postgres Exporter binary'
+      ansible.builtin.unarchive:
+        src: '/tmp/{{ _postgres_exporter_archive }}'
+        dest: '/tmp'
+        creates: '/tmp/{{ _postgres_exporter_tmp_dir }}/postgres_exporter'
+      delegate_to: localhost
+      check_mode: false
+
+    - name: 'Linux | Copy Postgres Exporter binary into place'
+      ansible.builtin.copy:
+        src: '/tmp/{{ _postgres_exporter_tmp_dir }}/postgres_exporter'
+        dest: '{{ postgres_exporter_install_path }}/postgres_exporter'
+        owner: '{{ postgres_exporter_user }}'
+        group: '{{ postgres_exporter_group }}'
+        mode: 0755
+      notify: 'Linux | Restart Postgres Exporter'
+      when: not ansible_check_mode
+      become: true

@@ -1,0 +1,13 @@
+---
+- name: 'Verify'
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: 'Verify postgres_exporter is responding to requests'
+      ansible.builtin.uri:
+        url: 'http://{{ ansible_host }}:9187/metrics'
+      register: _result
+      until: _result.status == 200
+      retries: 120
+      delay: 5

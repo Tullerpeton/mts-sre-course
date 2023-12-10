@@ -1,0 +1,33 @@
+---
+# See available releases: https://github.com/prometheus-community/postgres_exporter/releases
+postgres_exporter_version: '0.14.0'
+postgres_exporter_archive_name: 'postgres_exporter-{{ postgres_exporter_version }}.{{ _postgres_exporter_os }}-{{ _postgres_exporter_architecture }}'
+postgres_exporter_archive_extension: 'tar.gz'
+postgres_exporter_download_url: 'https://github.com/prometheus-community/postgres_exporter/releases/download/v{{ postgres_exporter_version }}'
+
+# Postgres Exporter user.
+postgres_exporter_user: 'postgres'
+postgres_exporter_group: '{{ postgres_exporter_user }}'
+
+# Postgres Exporter directories.
+postgres_exporter_install_path: '{{ _postgres_exporter_install_path }}'
+postgres_exporter_config_path: '{{ _postgres_exporter_config_path }}'
+
+# See available environment variables: https://github.com/prometheus-community/postgres_exporter#environment-variables
+postgres_exporter_data_source_name: '{{ _postgres_exporter_data_source_name }}'
+
+# See available settings flags: https://github.com/prometheus-community/postgres_exporter#flags
+postgres_exporter_web_listen_address: '0.0.0.0'
+postgres_exporter_web_listen_port: 9187
+postgres_exporter_web_telemetry_path: '/metrics'
+postgres_exporter_collectors: []
+postgres_exporter_disable_default_metrics: false
+postgres_exporter_disable_settings_metrics: false
+postgres_exporter_extend_query_path: ''
+postgres_exporter_log_level: 'info'
+postgres_exporter_log_format: 'logfmt'
+
+# Postgres Exporter TLS and basic authentication settings: https://github.com/prometheus/exporter-toolkit/blob/master/docs/web-configuration.md
+postgres_exporter_tls_server_config: {}
+postgres_exporter_http_server_config: {}
+postgres_exporter_basic_auth_users: {}

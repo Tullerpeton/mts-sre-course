@@ -1,0 +1,11 @@
+---
+- hosts: promt
+  roles:
+  - prometheus
+  vars:
+    prometheus_targets:
+      node:
+      - targets:
+        - localhost:9100
+        labels:
+          env: monitoring

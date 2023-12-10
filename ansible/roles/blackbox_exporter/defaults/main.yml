@@ -1,0 +1,41 @@
+---
+blackbox_exporter_version: 0.24.0
+blackbox_exporter_binary_local_dir: ""
+blackbox_exporter_binary_url: "https://github.com/{{ _blackbox_exporter_repo }}/releases/download/v{{ blackbox_exporter_version }}/\
+                               blackbox_exporter-{{ blackbox_exporter_version }}.linux-{{ go_arch_map[ansible_architecture] |
+                               default(ansible_architecture) }}.tar.gz"
+blackbox_exporter_checksums_url: "https://github.com/{{ _blackbox_exporter_repo }}/releases/download/v{{ blackbox_exporter_version }}/sha256sums.txt"
+blackbox_exporter_skip_install: false
+
+blackbox_exporter_web_listen_address: "0.0.0.0:9115"
+
+blackbox_exporter_user: blackbox-exp
+blackbox_exporter_group: "{{ blackbox_exporter_user }}"
+
+blackbox_exporter_cli_flags: {}
+# blackbox_exporter_cli_flags:
+#   log.level: "warn"
+
+blackbox_exporter_configuration_modules:
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2"]
+      method: GET
+      valid_status_codes: []
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      tls_config:
+        insecure_skip_verify: true
+      basic_auth:
+        username: "username"
+        password: "password"
+      headers:
+        Accept: '*/*'
+        Host: weather-app.api
+
+# Where to put the blackbox_exporter.yml main configuration file
+blackbox_exporter_config_dir: /etc
+
+blackbox_exporter_binary_install_dir: "/usr/local/bin"
